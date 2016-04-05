@@ -1,0 +1,34 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+
+
+	<!-- **********************  REST realm ********************** -->
+
+	<http realm="Contact Manager REST-service" pattern="/ws/**" use-expressions="true">
+		<intercept-url pattern="/ws/getCreate/*/*" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+		<intercept-url pattern="/ws/getSelect/*/*" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+		<intercept-url pattern="/ws/getUpdate/*/*" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+		<intercept-url pattern="/ws/**" access="denyAll" />
+		<http-basic/>
+	</http>
+
+
+
+
+
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="admin" password="pass" authorities="ROLE_ADMIN,ROLE_USER" />
+				<user name="user1" password="1111" authorities="ROLE_USER" />
+				<user name="user2" password="2222" disabled="true" authorities="ROLE_USER" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>
